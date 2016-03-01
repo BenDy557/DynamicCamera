@@ -11,6 +11,8 @@ public class GameplayVolume : MonoBehaviour {
     public Priority m_Priority;
 
     public float m_ScreenSize;
+    public float m_MinCameraDistance;
+    public float m_MaxCameraDistance;
     public ScreenPosition m_ScreenPosition;
     public Vector2 m_ScreenPositionCustom;
     //public VolumeType m_VolumeType;

@@ -29,7 +29,9 @@ public class CameraDualFocus : MonoBehaviour {
     private Vector3 m_TopLeftAdjustment;
     private Vector3 m_BottomRightAdjustment;
     private Vector3 m_TopRightAdjustment;
-    
+
+
+    GameObject m_TargetGraphic;
 
     //Size percentage for distance positioning
     public float m_DefaultSizeRatio = 0.3f;
@@ -48,6 +50,11 @@ public class CameraDualFocus : MonoBehaviour {
         m_BottomRightAdjustment = new Vector3((m_ScreenDimensions.x / 3) * 2, (m_ScreenDimensions.y / 3));
         m_TopLeftAdjustment = new Vector3((m_ScreenDimensions.x / 3), (m_ScreenDimensions.y / 3) * 2);
         m_TopRightAdjustment = new Vector3((m_ScreenDimensions.x / 3) * 2, (m_ScreenDimensions.y / 3) * 2);
+
+        m_TargetGraphic = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        m_TargetGraphic.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        Destroy(m_TargetGraphic.GetComponent<Collider>());
+        m_TargetGraphic.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Transparent");
     }
 
 	void Start () 
@@ -141,6 +148,7 @@ public class CameraDualFocus : MonoBehaviour {
             int x = m_ScreenSpaceCamera.targetTexture.width;
             int y = m_ScreenSpaceCamera.targetTexture.height;
 
+            //Counts green pixels
             int tempPixelCount = 0;
             for (int i = 0; i < (x * y); i++)
             {
@@ -150,17 +158,24 @@ public class CameraDualFocus : MonoBehaviour {
                 }
             }
 
+            //finds ratio of pixels:blankpixels
             float pixelRatio = (float)tempPixelCount / (float)(x * y);
 
+            //Direction vector between camera and gameplay volume
+            Vector3 tempDirectionVector= m_GameplayVolumeParamount.transform.position - gameObject.transform.position;
+            tempDirectionVector.Normalize();
 
-            Vector3 tempCurrentDifference = m_GameplayVolumeParamount.transform.position - gameObject.transform.position;
-            tempCurrentDifference.Normalize();
-
+            //Distance between camera and volume
             float tempCurrentDistance = Vector3.Distance(m_GameplayVolumeParamount.transform.position, gameObject.transform.position);
-            float targetDistance = tempCurrentDistance * (pixelRatio / m_GameplayVolumeParamount.GetComponent<GameplayVolume>().m_ScreenSize);
 
-            transform.position = transform.position + (tempCurrentDifference * (tempCurrentDistance - targetDistance) * 0.5f);
 
+            float targetDistance = tempCurrentDistance * (Mathf.Sqrt(pixelRatio) / Mathf.Sqrt(m_GameplayVolumeParamount.GetComponent<GameplayVolume>().m_ScreenSize));
+            
+            Vector3 tempTargetPosition = transform.position + (tempDirectionVector * (tempCurrentDistance - targetDistance));
+
+            m_TargetGraphic.transform.position = tempTargetPosition;
+
+            transform.position += ((tempTargetPosition - transform.position) / 10);
 
         }
 
