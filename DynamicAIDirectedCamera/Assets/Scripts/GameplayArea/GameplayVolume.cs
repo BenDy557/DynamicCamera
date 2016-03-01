@@ -28,10 +28,22 @@ public class GameplayVolume : MonoBehaviour {
     private GameplayVolumeManager m_GameplayVolumeManager;
     private MeshRenderer m_MeshRenderer;
 
+    void Awake()
+    {
+        if (m_Priority == Priority.Paramount)
+        {
+            gameObject.layer = LayerMask.NameToLayer("GameplayVolumesParamount");
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("GameplayVolumes");
+        }
+    }
 
 	// Use this for initialization
 	void Start () 
     {
+       
         m_Active = true;
         m_ActivePrev = m_Active;
 

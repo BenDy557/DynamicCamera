@@ -202,7 +202,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100042, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
@@ -781,7 +781,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ScreenSpaceViewer: {fileID: 0}
   m_GameplayVolumeRender: {fileID: 0}
-  m_SizeRatioDefault: .300000012
+  m_DefaultSizeRatio: .300000012
 --- !u!1 &1894818716
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,6 +860,10 @@ Prefab:
     - target: {fileID: 479908, guid: 6a014e433bae11a41bb8fe70982ce8b7, type: 2}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 181460, guid: 6a014e433bae11a41bb8fe70982ce8b7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6a014e433bae11a41bb8fe70982ce8b7, type: 2}
@@ -950,7 +954,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 152522, guid: 142dd06325bd64c46bdc5979abdbaf81, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 183342, guid: 142dd06325bd64c46bdc5979abdbaf81, type: 2}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 142dd06325bd64c46bdc5979abdbaf81, type: 2}
