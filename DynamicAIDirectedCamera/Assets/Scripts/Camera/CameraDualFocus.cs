@@ -30,6 +30,7 @@ public class CameraDualFocus : MonoBehaviour {
     private Vector3 m_BottomRightAdjustment;
     private Vector3 m_TopRightAdjustment;
 
+    Vector3 m_TargetPosition;
 
     GameObject m_TargetGraphic;
 
@@ -171,11 +172,12 @@ public class CameraDualFocus : MonoBehaviour {
 
             float targetDistance = tempCurrentDistance * (Mathf.Sqrt(pixelRatio) / Mathf.Sqrt(m_GameplayVolumeParamount.GetComponent<GameplayVolume>().m_ScreenSize));
             
-            Vector3 tempTargetPosition = transform.position + (tempDirectionVector * (tempCurrentDistance - targetDistance));
+            m_TargetPosition = transform.position + (tempDirectionVector * (tempCurrentDistance - targetDistance));
 
-            m_TargetGraphic.transform.position = tempTargetPosition;
+            m_TargetGraphic.transform.position = m_TargetPosition;
 
-            transform.position += ((tempTargetPosition - transform.position) / 10);
+            
+            //transform.position = tempTargetPosition;
 
         }
 
@@ -212,46 +214,23 @@ public class CameraDualFocus : MonoBehaviour {
                         break;
                 }
 
-                Vector3 screenDifference = m_ThisCamera.WorldToScreenPoint(m_GameplayVolumePrimary.transform.position) - targetScreenPosition;
+                Vector3 tempScreenCoordinates = m_ThisCamera.WorldToScreenPoint(m_GameplayVolumePrimary.transform.position);
 
-
-                //transform.Rotate(-screenDifference.y / m_ScreenDimensions.y * m_FOVVertical
-                //                , screenDifference.x / m_ScreenDimensions.x * m_FOV
-                //                , -transform.rotation.eulerAngles.z);
-
-                Debug.Log(screenDifference.x);
-
-
-                //Moving towards to align with vertical thirds
-                if (screenDifference.x > 0.0f)
+                if (!(tempScreenCoordinates.x < 0 || tempScreenCoordinates.x > m_ScreenDimensions.x) && !(tempScreenCoordinates.y < 0 || tempScreenCoordinates.y > m_ScreenDimensions.y))
                 {
-                    transform.Translate(0.0f, 0.0f, -0.1f);
+                    Vector3 screenDifference = m_ThisCamera.WorldToScreenPoint(m_GameplayVolumePrimary.transform.position) - targetScreenPosition;
+                    m_TargetPosition = RotatePointAroundPivot(m_TargetPosition, m_GameplayVolumeParamount.transform.position, new Vector3(0.0f, (screenDifference.x / m_ScreenDimensions.x) * m_FOV, (-screenDifference.y / m_ScreenDimensions.y) * m_FOVVertical));
                 }
-                else if (screenDifference.x < 0.0f)
+                else
                 {
-                    transform.Translate(0.0f, 0.0f, 0.1f);
+                    Debug.Log("PRIMARY OFFSCREEN");
                 }
 
 
-                if (screenDifference.x > 0.0f)
-                {
-                    transform.Translate(0.1f, 0.0f, 0.0f);
-                }
-                else if (screenDifference.x < 0.0f)
-                {
-                    transform.Translate(-0.1f, 0.0f, 0.0f);
-                }
+               
+                
 
-
-                //if (screenDifference.y > 0.0f)
-                //{
-                //    transform.Translate(0.0f, -0.1f, 0.0f);
-                //}
-                //else if (screenDifference.y < 0.0f)
-                //{
-                //    transform.Translate(0.0f, 0.1f, 0.0f);
-                //}
-
+                               
             }
         }
 
@@ -259,5 +238,22 @@ public class CameraDualFocus : MonoBehaviour {
         //PRIORITY-SECONDARY/////////////////////////////////////////////
         
 
+
+
+        //CAMERA MOVEMENT////////////////////////////////////////////////
+        ////////////////////////////////////////////////CAMERA MOVEMENT//
+        transform.position += ((m_TargetPosition - transform.position) / 10);
+
 	}
+
+    Vector3 RotatePointAroundPivot(Vector3 pointIn, Vector3 pivotIn, Vector3 angles)
+    {
+        Vector3 dir = pointIn - pivotIn; // get point direction relative to pivot
+        dir = Quaternion.Euler(angles) * dir; // rotate it
+        pointIn = dir + pivotIn; // calculate rotated point
+        return pointIn; // return it
+    }
+
+     
+   
 }
