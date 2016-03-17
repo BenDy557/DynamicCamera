@@ -30,7 +30,7 @@ public class CameraDualFocus : MonoBehaviour {
     private Vector3 m_BottomRightAdjustment;
     private Vector3 m_TopRightAdjustment;
 
-    Vector3 m_TargetPosition;
+    private Vector3 m_TargetPosition;
 
     GameObject m_TargetGraphic;
 
@@ -216,6 +216,7 @@ public class CameraDualFocus : MonoBehaviour {
 
                 Vector3 tempScreenCoordinates = m_ThisCamera.WorldToScreenPoint(m_GameplayVolumePrimary.transform.position);
 
+                /*
                 if (!(tempScreenCoordinates.x < 0 || tempScreenCoordinates.x > m_ScreenDimensions.x) && !(tempScreenCoordinates.y < 0 || tempScreenCoordinates.y > m_ScreenDimensions.y))
                 {
                     Vector3 screenDifference = m_ThisCamera.WorldToScreenPoint(m_GameplayVolumePrimary.transform.position) - targetScreenPosition;
@@ -225,11 +226,22 @@ public class CameraDualFocus : MonoBehaviour {
                 {
                     Debug.Log("PRIMARY OFFSCREEN");
                 }
+                */
 
-
-               
+                Vector3 screenDifference = m_ThisCamera.WorldToScreenPoint(m_GameplayVolumePrimary.transform.position) - targetScreenPosition;
                 
+                /*
+                m_TargetPosition = RotatePointAroundPivot(m_TargetPosition
+                                                        , m_GameplayVolumeParamount.transform.position
+                                                        , new Vector3(0.0f, (screenDifference.x / m_ScreenDimensions.x) * m_FOV, (-screenDifference.y / m_ScreenDimensions.y) * m_FOVVertical));
+                */
 
+
+                //transform.Rotate(new Vector3(0.0f, (screenDifference.x / m_ScreenDimensions.x) * m_FOV, (-screenDifference.y / m_ScreenDimensions.y) * m_FOVVertical), Space.World);
+
+                //transform.Rotate(
+                //m_TargetPosition = RotatePointAroundPivot(m_TargetPosition, m_GameplayVolumeParamount.transform.position, new Vector3(0.0f, 10.0f, 0.0f));
+                m_TargetPosition = RotatePointAroundPivot(m_TargetPosition, m_GameplayVolumeParamount.transform.position, new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0.0f));
                                
             }
         }
