@@ -30,7 +30,8 @@ public class CameraDualFocus : MonoBehaviour {
     private Vector3 m_BottomRightAdjustment;
     private Vector3 m_TopRightAdjustment;
 
-    private Vector3 m_TargetPosition;
+    private Vector3 m_TargetCameraPosition;
+    private GameObject m_GameplayObjectFocus;
 
     GameObject m_TargetGraphic;
 
@@ -52,10 +53,13 @@ public class CameraDualFocus : MonoBehaviour {
         m_TopLeftAdjustment = new Vector3((m_ScreenDimensions.x / 3), (m_ScreenDimensions.y / 3) * 2);
         m_TopRightAdjustment = new Vector3((m_ScreenDimensions.x / 3) * 2, (m_ScreenDimensions.y / 3) * 2);
 
-        m_TargetGraphic = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        m_TargetGraphic.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        Destroy(m_TargetGraphic.GetComponent<Collider>());
-        m_TargetGraphic.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Transparent");
+        m_GameplayObjectFocus = new GameObject("CameraParent");
+
+
+        //m_TargetGraphic = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        //m_TargetGraphic.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //Destroy(m_TargetGraphic.GetComponent<Collider>());
+       // m_TargetGraphic.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/Transparent");
     }
 
 	void Start () 
@@ -79,7 +83,7 @@ public class CameraDualFocus : MonoBehaviour {
    
 
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
 
         //PRIORITY ASSIGNMENT///////////////////////////////////////////////
@@ -95,7 +99,9 @@ public class CameraDualFocus : MonoBehaviour {
                 m_GameplayVolumePrimary = m_GameplayVolumes[i];
             }
         }
-        
+
+        //Camera temporary Parent transform
+        m_GameplayObjectFocus.transform.position = new Vector3(m_GameplayVolumeParamount.transform.position.x,m_GameplayVolumeParamount.transform.position.y,m_GameplayVolumeParamount.transform.position.z);
         
         //PRIORITY-PARAMOUNT/////////////////////////////////////////////
         if (m_GameplayVolumeParamount.GetComponent<GameplayVolume>().m_Active)
@@ -171,10 +177,10 @@ public class CameraDualFocus : MonoBehaviour {
 
 
             float targetDistance = tempCurrentDistance * (Mathf.Sqrt(pixelRatio) / Mathf.Sqrt(m_GameplayVolumeParamount.GetComponent<GameplayVolume>().m_ScreenSize));
-            
-            m_TargetPosition = transform.position + (tempDirectionVector * (tempCurrentDistance - targetDistance));
 
-            m_TargetGraphic.transform.position = m_TargetPosition;
+            m_TargetCameraPosition = transform.position + (tempDirectionVector * (tempCurrentDistance - targetDistance));
+
+            //m_TargetGraphic.transform.position = m_TargetCameraPosition;
 
             
             //transform.position = tempTargetPosition;
@@ -241,31 +247,44 @@ public class CameraDualFocus : MonoBehaviour {
 
                 //transform.Rotate(
                 //m_TargetPosition = RotatePointAroundPivot(m_TargetPosition, m_GameplayVolumeParamount.transform.position, new Vector3(0.0f, 10.0f, 0.0f));
-                m_TargetPosition = RotatePointAroundPivot(m_TargetPosition, m_GameplayVolumeParamount.transform.position, new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0.0f));
+
+
+                //m_TargetCameraPosition = RotatePointAroundPivot(m_TargetCameraPosition, m_GameplayVolumeParamount.transform.position, new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
+
+
+                //Sets Parents rotation to cameras
+                m_GameplayObjectFocus.transform.rotation = transform.rotation;
+                //And then sets transform to parent of camera
+                transform.parent = m_GameplayObjectFocus.transform;
+
+                //m_GameplayObjectFocus.transform.Rotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"),0.0f);
+                //m_GameplayObjectFocus.transform.Rotate(0.0f, (screenDifference.x / m_ScreenDimensions.x) * m_FOV, (-screenDifference.y / m_ScreenDimensions.y) * m_FOVVertical);
+                //m_GameplayObjectFocus.transform.Rotate((-screenDifference.y / m_ScreenDimensions.y) * 3.0f, (screenDifference.x / m_ScreenDimensions.x) * 3.0f, 0.0f);
+                m_GameplayObjectFocus.transform.Rotate((-screenDifference.y / m_ScreenDimensions.y) * m_FOVVertical, (screenDifference.x / m_ScreenDimensions.x) * m_FOV, 0.0f);
+
+                transform.parent = null;
                                
             }
         }
 
-
         //PRIORITY-SECONDARY/////////////////////////////////////////////
         
 
-
-
         //CAMERA MOVEMENT////////////////////////////////////////////////
         ////////////////////////////////////////////////CAMERA MOVEMENT//
-        transform.position += ((m_TargetPosition - transform.position) / 10);
+        transform.position += ((m_TargetCameraPosition - transform.position) / 5);
 
 	}
 
     Vector3 RotatePointAroundPivot(Vector3 pointIn, Vector3 pivotIn, Vector3 angles)
     {
         Vector3 dir = pointIn - pivotIn; // get point direction relative to pivot
+
+        
         dir = Quaternion.Euler(angles) * dir; // rotate it
         pointIn = dir + pivotIn; // calculate rotated point
         return pointIn; // return it
     }
 
-     
    
 }
