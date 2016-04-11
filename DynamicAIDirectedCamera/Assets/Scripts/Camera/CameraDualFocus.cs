@@ -180,11 +180,6 @@ public class CameraDualFocus : MonoBehaviour {
 
             m_TargetCameraPosition = transform.position + (tempDirectionVector * (tempCurrentDistance - targetDistance));
 
-            //m_TargetGraphic.transform.position = m_TargetCameraPosition;
-
-            
-            //transform.position = tempTargetPosition;
-
         }
 
 
@@ -236,30 +231,14 @@ public class CameraDualFocus : MonoBehaviour {
 
                 Vector3 screenDifference = m_ThisCamera.WorldToScreenPoint(m_GameplayVolumePrimary.transform.position) - targetScreenPosition;
                 
-                /*
-                m_TargetPosition = RotatePointAroundPivot(m_TargetPosition
-                                                        , m_GameplayVolumeParamount.transform.position
-                                                        , new Vector3(0.0f, (screenDifference.x / m_ScreenDimensions.x) * m_FOV, (-screenDifference.y / m_ScreenDimensions.y) * m_FOVVertical));
-                */
-
-
-                //transform.Rotate(new Vector3(0.0f, (screenDifference.x / m_ScreenDimensions.x) * m_FOV, (-screenDifference.y / m_ScreenDimensions.y) * m_FOVVertical), Space.World);
-
-                //transform.Rotate(
-                //m_TargetPosition = RotatePointAroundPivot(m_TargetPosition, m_GameplayVolumeParamount.transform.position, new Vector3(0.0f, 10.0f, 0.0f));
-
-
-                //m_TargetCameraPosition = RotatePointAroundPivot(m_TargetCameraPosition, m_GameplayVolumeParamount.transform.position, new Vector3(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
-
-
+                
                 //Sets Parents rotation to cameras
                 m_GameplayObjectFocus.transform.rotation = transform.rotation;
                 //And then sets transform to parent of camera
                 transform.parent = m_GameplayObjectFocus.transform;
 
                 //m_GameplayObjectFocus.transform.Rotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"),0.0f);
-                //m_GameplayObjectFocus.transform.Rotate(0.0f, (screenDifference.x / m_ScreenDimensions.x) * m_FOV, (-screenDifference.y / m_ScreenDimensions.y) * m_FOVVertical);
-                //m_GameplayObjectFocus.transform.Rotate((-screenDifference.y / m_ScreenDimensions.y) * 3.0f, (screenDifference.x / m_ScreenDimensions.x) * 3.0f, 0.0f);
+              
                 m_GameplayObjectFocus.transform.Rotate((-screenDifference.y / m_ScreenDimensions.y) * m_FOVVertical, (screenDifference.x / m_ScreenDimensions.x) * m_FOV, 0.0f);
 
                 transform.parent = null;
