@@ -90,13 +90,16 @@ public class CameraDualFocus : MonoBehaviour {
         ///////////////////////////////////////////////PRIORITY ASSIGNMENT//
         for (int i = 0; i < m_GameplayVolumes.Count; i++)
         {
-            if (m_GameplayVolumes[i].GetComponent<GameplayVolume>().m_Priority == GameplayVolume.Priority.Paramount)
+            if (m_GameplayVolumes[i].GetComponent<GameplayVolume>().m_Active)
             {
-                m_GameplayVolumeParamount = m_GameplayVolumes[i];
-            }
-            else if (m_GameplayVolumes[i].GetComponent<GameplayVolume>().m_Priority == GameplayVolume.Priority.Primary)
-            {
-                m_GameplayVolumePrimary = m_GameplayVolumes[i];
+                if (m_GameplayVolumes[i].GetComponent<GameplayVolume>().m_Priority == GameplayVolume.Priority.Paramount)
+                {
+                    m_GameplayVolumeParamount = m_GameplayVolumes[i];
+                }
+                else if (m_GameplayVolumes[i].GetComponent<GameplayVolume>().m_Priority == GameplayVolume.Priority.Primary)
+                {
+                    m_GameplayVolumePrimary = m_GameplayVolumes[i];
+                }
             }
         }
 

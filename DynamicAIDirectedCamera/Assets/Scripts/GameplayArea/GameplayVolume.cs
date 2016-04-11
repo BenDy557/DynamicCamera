@@ -46,10 +46,10 @@ public class GameplayVolume : MonoBehaviour {
 	void Start () 
     {
        
-        m_Active = true;
+        //m_Active = true;
         m_ActivePrev = m_Active;
 
-        m_Visible = true;
+        //m_Visible = true;
         m_VisiblePrev = m_Visible;
 
         m_MeshRenderer = GetComponent<MeshRenderer>();
@@ -57,9 +57,9 @@ public class GameplayVolume : MonoBehaviour {
 
         
         m_GameplayVolumeManager = FindObjectOfType<GameplayVolumeManager>().GetComponent<GameplayVolumeManager>();
+        m_GameplayVolumeManager.gameplayVolumes.Add(gameObject);
         if (m_Active)
         {
-            m_GameplayVolumeManager.gameplayVolumes.Add(gameObject);
             m_MeshRenderer.material = Resources.Load<Material>("Materials/GameplayVolumeActive");
         }
         else
