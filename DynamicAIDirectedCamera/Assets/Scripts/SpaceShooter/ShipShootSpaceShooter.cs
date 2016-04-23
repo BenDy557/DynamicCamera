@@ -5,7 +5,8 @@ public class ShipShootSpaceShooter : MonoBehaviour {
 
     private GameObject mBulletPrefab;
     public GameObject mAimingReticule;
-    private GameplayVolume mReticuleCameraVolume;
+    public GameplayVolume mIsoCameraVolume;
+    public GameObject mPlayerGameplayVolume;
     public GameObject[] mTargets;
     public float mRateOfFire;
 
@@ -16,7 +17,6 @@ public class ShipShootSpaceShooter : MonoBehaviour {
     {
         mTargetLock = false;
 
-        mReticuleCameraVolume = mAimingReticule.GetComponentInChildren<GameplayVolume>();
 
         mBulletPrefab = (GameObject)Resources.Load("SpaceShooter/Prefabs/Laser");
 
@@ -31,24 +31,47 @@ public class ShipShootSpaceShooter : MonoBehaviour {
         }
 
 
+        Vector3 tempPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        mAimingReticule.transform.position = tempPos;
+
+
         if (mTargetLock)
         {
             mTargets[0].GetComponentInChildren<GameplayVolume>().m_Active = true;
-            mReticuleCameraVolume.m_Active = false;
+            mIsoCameraVolume.m_Active = false;
+            mPlayerGameplayVolume.GetComponent<GameplayVolume>().m_ScreenPosition = GameplayVolume.ScreenPosition.BottomLeft;
+            mPlayerGameplayVolume.GetComponent<GameplayVolume>().m_ScreenSize = 0.15f;
+            mAimingReticule.transform.LookAt(mTargets[0].transform);
+            mAimingReticule.SetActive(true);
         }
         else
         {
             mTargets[0].GetComponentInChildren<GameplayVolume>().m_Active = false;
-            mReticuleCameraVolume.m_Active = true;
+            mIsoCameraVolume.m_Active = true;
+            
 
-            Vector3 tempPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            mAimingReticule.transform.position = tempPos;
-            mAimingReticule.transform.Rotate(new Vector3(0.0f, 2.5f * Input.GetAxis("XboxPlayer1RightStickAxisX")));
+            //mAimingReticule.transform.Rotate(new Vector3(0.0f, 2.5f * Input.GetAxis("XboxPlayer1RightStickAxisX")));
+            //mAimingReticule.transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
+            mAimingReticule.SetActive(false);
+
+            mPlayerGameplayVolume.GetComponent<GameplayVolume>().m_ScreenPosition = GameplayVolume.ScreenPosition.Custom;
+            mPlayerGameplayVolume.GetComponent<GameplayVolume>().m_ScreenSize = 0.002f;
         }
+    
+        
+        
+
 
         if (Input.GetButtonDown("XboxPlayer1RightBumper"))
         {
-            Instantiate(mBulletPrefab, transform.position, mAimingReticule.transform.rotation);
+            if (mTargetLock)
+            {
+                Instantiate(mBulletPrefab, transform.position, mAimingReticule.transform.rotation);
+            }
+            else
+            {
+                Instantiate(mBulletPrefab, transform.position, transform.rotation);
+            }
         }
 
 
