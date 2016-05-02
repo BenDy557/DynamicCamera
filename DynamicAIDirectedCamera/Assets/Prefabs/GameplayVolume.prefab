@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2317334}
   - 114: {fileID: 11464726}
   m_Layer: 8
-  m_Name: GameplayVolume1x1
+  m_Name: GameplayVolume
   m_TagString: Untagged
   m_Icon: {fileID: 2270504221434485236, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

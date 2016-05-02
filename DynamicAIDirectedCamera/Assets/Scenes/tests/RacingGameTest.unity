@@ -8955,6 +8955,10 @@ Prefab:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 100048, guid: 224056c0a45ee2f47b9db48e8ddb5578, type: 2}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 224056c0a45ee2f47b9db48e8ddb5578, type: 2}
   m_IsPrefabParent: 0
@@ -9347,7 +9351,7 @@ GameObject:
   - 4: {fileID: 790749738}
   - 33: {fileID: 790749740}
   - 23: {fileID: 790749739}
-  m_Layer: 16
+  m_Layer: 0
   m_Name: Garage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9573,6 +9577,10 @@ Prefab:
     - target: {fileID: 9632188, guid: f74d304bc1206ba4fa08e312caee88cd, type: 2}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2043504, guid: f74d304bc1206ba4fa08e312caee88cd, type: 2}
+      propertyPath: near clip plane
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f74d304bc1206ba4fa08e312caee88cd, type: 2}

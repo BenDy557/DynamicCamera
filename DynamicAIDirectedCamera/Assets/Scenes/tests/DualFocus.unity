@@ -202,7 +202,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100042, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_Materials.Array.data[0]
@@ -1662,7 +1662,7 @@ MonoBehaviour:
   m_MaxCameraDistance: 0
   m_ScreenPosition: 4
   m_ScreenPositionCustom: {x: .5, y: .5}
-  m_Active: 1
+  m_Active: 0
   m_Visible: 1
 --- !u!23 &2061633521
 MeshRenderer:
@@ -1796,7 +1796,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 152522, guid: 142dd06325bd64c46bdc5979abdbaf81, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 183342, guid: 142dd06325bd64c46bdc5979abdbaf81, type: 2}
       propertyPath: m_Layer
